@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Actas</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="nav" style="background-color: #9ec6ee; padding: 15px;">
+        <a class="nav-link active" href="#">Actas</a>
+        <a class="nav-link" href="#">Contra Actas</a>
+        <a class="nav-link" href="#">Desinfecciones</a>
+    </nav>
+
+    <h2>Listado de Actas</h2>
+
+    <div class="contenido">
+        <!-- Contenido de la página -->
+        <p>¡Bienvenido a mi sitio web! Este es un ejemplo de página web con diferentes combinaciones de colores.</p>
+         <!-- Filtros -->
+        <form method="GET" action="{% url 'listar_actas' %}">
+            <label for="empresa_filter">Empresa:</label>
+            <select name="empresa" id="empresa_filter">
+                <option value="">Todas</option>
+                {% for empresa in empresas %}
+                    <option value="{{ empresa.id }}">{{ empresa.empresa }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="interno_filter">Interno:</label>
+            <input type="number" name="interno" id="interno_filter" min="1">
+
+            <label for="acta_filter">Número de Acta:</label>
+            <input type="text" name="acta" id="acta_filter">
+
+            <button type="submit">Filtrar</button>
+        </form>
+
+        <!-- Tabla de Actas -->
+        <table class="actas-table" border="1">
+            <tr>
+                <th>Número de Acta</th>
+                <th>Fecha</th>
+                <th>Empresa</th>
+                <th>Interno</th>
+                <th>Descripción</th>
+                <th>Intimación</th>
+                <th>Horas Intimación</th>
+                <th>PDF</th>
+            </tr>
+            {% for acta in actas %}
+            <tr>
+                <td>{{ acta.numero_de_acta }}</td>
+                <td>{{ acta.fecha }}</td>
+                <td>{{ acta.empresa.empresa }}</td>
+                <td>{{ acta.interno }}</td>
+                <td>{{ acta.descripcion }}</td>
+                <td>{{ acta.intimacion }}</td>
+                <td>{{ acta.horas_intimacion }}</td>
+                <td><a href="{{ acta.acta_pdf.url }}" target="_blank">Ver PDF</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+   
+</body>
+</html>

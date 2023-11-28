@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="menu-navegador">
+        <ul>
+            <li>
+                <a href="#empresa">Empresa</a>
+            </li>
+            <li>
+                <a href="#actas">Actas</a>
+            </li>
+            <li>
+                <a href="#contractas">Contractas</a>
+            </li>
+        </ul>
+    </div>
+    <div class="contenido">
+        <!-- Contenido de la página -->
+        <h1>Bienvenido a mi sitio web</h1>
+        <p>Este es un ejemplo de página web con diferentes combinaciones de colores.</p>
+         <!-- Filtros -->
+    <form method="GET" action="{% url 'listar_actas' %}">
+        <label for="empresa_filter">Empresa:</label>
+        <select name="empresa" id="empresa_filter">
+            <option value="">Todas</option>
+            {% for empresa in empresas %}
+                <option value="{{ empresa.id }}">{{ empresa.empresa }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="interno_filter">Interno:</label>
+        <input type="number" name="interno" id="interno_filter" min="1">
+
+        <label for="acta_filter">Número de Acta:</label>
+        <input type="text" name="acta" id="acta_filter">
+
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <!-- Tabla de Actas -->
+    <table border="1">
+        <tr>
+            <th>Número de Acta</th>
+            <th>Fecha</th>
+            <th>Empresa</th>
+            <th>Interno</th>
+            <th>Descripción</th>
+            <th>Intimación</th>
+            <th>Horas Intimación</th>
+            <th>PDF</th>
+        </tr>
+        {% for acta in actas %}
+        <tr>
+            <td>{{ acta.numero_de_acta }}</td>
+            <td>{{ acta.fecha }}</td>
+            <td>{{ acta.empresa.empresa }}</td>
+            <td>{{ acta.interno }}</td>
+            <td>{{ acta.descripcion }}</td>
+            <td>{{ acta.intimacion }}</td>
+            <td>{{ acta.horas_intimacion }}</td>
+            <td><a href="{{ acta.acta_pdf.url }}" target="_blank">Ver PDF</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+
+    </div>
+   
+       
+</body>
+</html>
